@@ -16,11 +16,14 @@
     "service_worker": "src/workers/background.ts",
     "type": "module"
   },
-  "action": {
-    "default_popup": "src/popup/index.html"
+  "chrome_url_overrides": {
+    "newtab": "src/newtab/index.html"
   },
   "side_panel": {
-    "default_path": "src/sidepanel/index.html"
+    "default_path": "src/process/index.html"
+  },
+  "action": {
+    "default_popup": "src/process/index.html"
   },
   "options_page": "src/options/index.html",
   "content_security_policy": {
