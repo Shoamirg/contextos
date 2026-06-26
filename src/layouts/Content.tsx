@@ -1,9 +1,9 @@
 import { Dashboard } from '@/pages/Dashboard';
+import { Search } from '@/pages/Search';
+import { useSearchStore } from '@/features/resources/resourceStore';
 
 export function Content() {
-  return (
-    <main className="content">
-      <Dashboard />
-    </main>
-  );
+  const q = useSearchStore((s) => s.searchQuery);
+  if (q) return <Search />;
+  return <Dashboard />;
 }
