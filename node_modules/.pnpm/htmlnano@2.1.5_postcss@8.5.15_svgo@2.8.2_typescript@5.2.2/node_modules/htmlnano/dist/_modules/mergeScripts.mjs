@@ -1,0 +1,51 @@
+import { extractTextContentFromNode } from '../helpers.mjs';
+
+/* Merge multiple <script> into one */ const mod = {
+    default (tree) {
+        const scriptNodesIndex = {};
+        let scriptSrcIndex = 1;
+        tree.match({
+            tag: 'script'
+        }, (node)=>{
+            const nodeAttrs = node.attrs || {};
+            if ('src' in nodeAttrs || 'integrity' in nodeAttrs) {
+                scriptSrcIndex++;
+                return node;
+            }
+            const scriptType = nodeAttrs.type || 'text/javascript';
+            if (scriptType !== 'text/javascript' && scriptType !== 'application/javascript') {
+                return node;
+            }
+            const scriptKey = JSON.stringify({
+                id: nodeAttrs.id,
+                class: nodeAttrs.class,
+                type: scriptType,
+                defer: nodeAttrs.defer !== undefined,
+                async: nodeAttrs.async !== undefined,
+                index: scriptSrcIndex
+            });
+            if (!scriptNodesIndex[scriptKey]) {
+                scriptNodesIndex[scriptKey] = [];
+            }
+            scriptNodesIndex[scriptKey].push(node);
+            return node;
+        });
+        for (const scriptNodes of Object.values(scriptNodesIndex)){
+            const lastScriptNode = scriptNodes.pop();
+            scriptNodes.reverse().forEach((scriptNode)=>{
+                let scriptContent = extractTextContentFromNode(scriptNode).trim();
+                if (scriptContent.slice(-1) !== ';') {
+                    scriptContent += ';';
+                }
+                lastScriptNode.content = lastScriptNode.content || [];
+                lastScriptNode.content.unshift(scriptContent);
+                // @ts-expect-error -- remove node
+                scriptNode.tag = false;
+                scriptNode.content = [];
+            });
+        }
+        return tree;
+    }
+};
+
+export { mod as default };

@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "ContextOS",
+  "version": "0.1.0",
+  "description": "Visual operating system for managing work contexts, browser tabs, and resources.",
+  "permissions": [
+    "tabs",
+    "storage",
+    "sidePanel",
+    "alarms"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "src/workers/background.ts",
+    "type": "module"
+  },
+  "action": {
+    "default_popup": "src/popup/index.html"
+  },
+  "side_panel": {
+    "default_path": "src/sidepanel/index.html"
+  },
+  "options_page": "src/options/index.html",
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  }
+}

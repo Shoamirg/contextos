@@ -1,0 +1,117 @@
+{
+  "name": "@plasmohq/storage",
+  "version": "1.15.0",
+  "description": "Safely and securely store data and share them across your extension and websites",
+  "type": "module",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "./inspector": {
+      "types": "./dist/inspector.d.ts",
+      "import": "./dist/inspector.js",
+      "require": "./dist/inspector.cjs"
+    },
+    "./secure": {
+      "types": "./dist/secure.d.ts",
+      "import": "./dist/secure.js",
+      "require": "./dist/secure.cjs"
+    },
+    "./hook": {
+      "types": "./dist/hook.d.ts",
+      "import": "./dist/hook.js",
+      "require": "./dist/hook.cjs"
+    },
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "inspector": [
+        "./dist/inspector.d.ts"
+      ],
+      "secure": [
+        "./dist/secure.d.ts"
+      ],
+      "hook": [
+        "./dist/hook.d.ts"
+      ]
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "tsup": {
+    "entry": [
+      "src/index.ts",
+      "src/hook.ts",
+      "src/secure.ts",
+      "src/inspector.ts"
+    ],
+    "format": [
+      "esm",
+      "cjs"
+    ],
+    "target": "esnext",
+    "platform": "node",
+    "splitting": false,
+    "bundle": true
+  },
+  "author": "Plasmo Corp. <foss@plasmo.com>",
+  "contributors": [
+    "@louisgv",
+    "@ColdSauce",
+    "@vantezzen"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/PlasmoHQ/storage.git"
+  },
+  "license": "MIT",
+  "keywords": [
+    "localstorage",
+    "react-hook",
+    "browser-extension",
+    "chrome-storage"
+  ],
+  "peerDependencies": {
+    "react": "^16.8.6 || ^17 || ^18 || ^19.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "pify": "6.1.0"
+  },
+  "devDependencies": {
+    "@jest/globals": "29.7.0",
+    "@jest/types": "29.6.3",
+    "@testing-library/react": "16.2.0",
+    "@types/chrome": "0.0.258",
+    "@types/node": "20.11.5",
+    "@types/react": "19.0.8",
+    "canvas": "3.1.0",
+    "cross-env": "7.0.3",
+    "jest": "29.7.0",
+    "jest-environment-jsdom": "29.7.0",
+    "prettier": "3.2.4",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "rimraf": "5.0.5",
+    "ts-jest": "29.1.1",
+    "tsup": "8.0.1",
+    "typescript": "5.3.3",
+    "@plasmohq/rps": "1.8.7"
+  },
+  "scripts": {
+    "dev": "run-p dev:*",
+    "dev:compile": "tsup --watch --sourcemap",
+    "dev:test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --watch",
+    "build": "tsup --dts-resolve --minify --clean",
+    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest"
+  }
+}
